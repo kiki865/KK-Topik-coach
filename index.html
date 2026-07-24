@@ -25,7 +25,7 @@
 내일 뵙겠습니다.</textarea><button onclick="copyDraft()">複製明日訊息</button></div><p class="notice" id="copyNotice" aria-live="polite">可修改後再複製貼到訊息中。</p></section>
   </main><footer>KK TOPIK I Coach</footer>
   <script>
-    const audio=(t)=>`<button class="sound" onclick="speak('${t.replace(/'/g,"\\'")}')">🔊 發音</button>`;
+    const audio=(t)=>`<button class="sound" onclick="event.stopPropagation();speak('${t.replace(/'/g,"\\'")}',this)">🔊 發音</button>`;
     const q=(t,a,c,e)=>({t,a,c,e});
     const sets={
       '單字':[
@@ -61,7 +61,7 @@
       ]
     };
     const vocabSounds=['약속','회의','준비하다','늦다','근처','먼저','아직','필요하다','보내다','확인하다'];
-    const grammarSounds=['저는 회사에 갑니다.','커피를 마셔요.','비가 와서 우산을 가져갔어요.','어제 영화를 봤어요.','회의가 끝난 후에 연락할게요.'];
+    const grammarSounds=['저는 회사, 갑니다.','커피, 마셔요.','비가 와서 우산을 가져갔어요.','어제 영화를,','회의가 끝난 후에 연락할게요.'];
     const listeningSounds=['오늘은 비가 와요.','자료를 보냈어요.','잠깐만 기다려 주세요.','내일 오전에 회의가 있어요.','확인하고 싶어요.'];
     sets['單字'].forEach((x,i)=>x.sound=vocabSounds[i]);
     sets['文法'].forEach((x,i)=>x.sound=grammarSounds[i]);
@@ -73,7 +73,7 @@
     function markKorean(html){return html.replace(/[가-힣]+/g,word=>'<span class="kword" data-word="'+word+'">'+word+'</span>')}
     function koreanOnly(text){return(text.match(/[가-힣]+/g)||[]).join(' ')}
     function clearHighlight(){document.querySelectorAll('.kword.active').forEach(x=>x.classList.remove('active'))}
-    function speak(text){if(!('speechSynthesis'in window)){alert('此瀏覽器不支援語音播放。');return}speechSynthesis.cancel();clearHighlight();const words=[...text.matchAll(/[가-힣]+/g)],u=new SpeechSynthesisUtterance(text);u.lang='ko-KR';u.rate=.84;const highlight=position=>{let current=words[0];words.forEach(w=>{if(w.index<=position)current=w});if(!current)return;clearHighlight();const target=[...document.querySelectorAll('.kword')].find(x=>x.dataset.word===current[0]);if(target)target.classList.add('active')};u.onstart=()=>highlight(0);u.onboundary=e=>highlight(e.charIndex);u.onend=clearHighlight;u.onerror=clearHighlight;speechSynthesis.speak(u)}
+    function speak(text,button=document.activeElement){if(!('speechSynthesis'in window)){alert('此瀏覽器不支援語音播放。');return}speechSynthesis.cancel();clearHighlight();const root=button?.closest('.question,.phrase')||button?.closest('.answers > button'),all=[...(root?.querySelectorAll('.kword')||[])],matches=[...text.matchAll(/[가-힣]+/g)],spoken=matches.map(x=>x[0]);let start=all.findIndex((x,i)=>spoken.every((word,n)=>all[i+n]?.dataset.word===word));if(start<0)start=0;const words=all.slice(start,start+spoken.length),u=new SpeechSynthesisUtterance(text);u.lang='ko-KR';u.rate=.84;const highlight=position=>{let selected=0;matches.forEach((m,i)=>{if(m.index<=position)selected=i});clearHighlight();words[selected]?.classList.add('active')};u.onstart=()=>highlight(0);u.onboundary=e=>highlight(e.charIndex);u.onend=clearHighlight;u.onerror=clearHighlight;speechSynthesis.speak(u)}
     function koreanButton(text){const korean=koreanOnly(text);return korean?audio(korean):''}
     function start(name){mode=name;active=name==='錯題'?buildWrong():name==='模擬考'?exam:sets[name];index=0;answered=false;const s=document.getElementById('session');s.classList.add('open');document.getElementById('sessionTitle').textContent=name+'練習';document.getElementById('sessionHint').textContent=name==='錯題'?'答對三次後會從錯題清單移除。':'答題後可看說明，再按下一題。';s.scrollIntoView({behavior:'smooth',block:'start'});render()}
     function buildWrong(){const w=getWrong();return Object.values(sets).flat().filter(x=>w[x.t]&&w[x.t].right<3)}
@@ -86,6 +86,7 @@
     function startExam(){if(new Date()>=new Date('2026-08-15T00:00:00'))start('模擬考')}
     function setupExam(){const open=new Date()>=new Date('2026-08-15T00:00:00'),b=document.getElementById('examButton'),n=document.getElementById('examNote');b.disabled=!open;b.textContent=open?'開始模擬考':'8/15 開始';n.textContent=open?'現在可以開始測驗。':'2026/8/15 00:00 開放。'}
     async function copyDraft(){const t=document.getElementById('messageDraft').value;try{await navigator.clipboard.writeText(t);document.getElementById('copyNotice').textContent='已複製，可直接貼到明天的訊息。'}catch{document.getElementById('messageDraft').select();document.execCommand('copy');document.getElementById('copyNotice').textContent='已選取訊息，請按 Ctrl+C 複製。'}}
+    document.querySelectorAll('.phrase strong').forEach(x=>x.innerHTML=markKorean(x.textContent));
     setupExam();updateCounts();
   </script>
 </body></html>
