@@ -1,37 +1,48 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#352f87">
-  <title>KK TOPIK I Coach</title>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>KK TOPIK I Coach</title>
   <style>
-    :root { --ink:#211c3d; --purple:#5046b8; --lav:#eeedff; --mint:#dff8ed; --orange:#ff9e68; --paper:#fffdf9; }
-    * { box-sizing:border-box } body { margin:0; color:var(--ink); font-family:system-ui,-apple-system,"Noto Sans TC",sans-serif; background:linear-gradient(135deg,#f6f2ff,#fffaf4); min-height:100vh }
-    header { max-width:1120px; margin:auto; padding:clamp(20px,5vw,48px) clamp(16px,4vw,40px) 24px; display:flex; align-items:center; justify-content:space-between; gap:12px }
-    .brand { font-weight:850; letter-spacing:-.04em; font-size:clamp(1.35rem,4vw,2rem) }.badge { color:white; background:var(--purple); border-radius:99px; padding:8px 12px; font-size:.82rem; white-space:nowrap }
-    main { max-width:1120px; padding:0 clamp(16px,4vw,40px) 48px; margin:auto }.hero { background:var(--purple); border-radius:28px; color:white; padding:clamp(24px,5vw,52px); display:grid; grid-template-columns:1.2fr .8fr; gap:24px; overflow:hidden }
-    h1 { margin:0; font-size:clamp(2rem,6vw,4.4rem); line-height:1.04; letter-spacing:-.06em }.hero p { font-size:clamp(1rem,2vw,1.2rem); opacity:.88; max-width:36rem; line-height:1.7 }.hero-mark { align-self:center; text-align:center; font-size:clamp(6rem,15vw,11rem); filter:drop-shadow(0 10px 0 #39318d) }
-    .progress { margin-top:18px; display:flex; gap:12px; align-items:center; font-size:.9rem }.track { height:10px; background:#7971d2; border-radius:99px; flex:1; overflow:hidden }.track i { display:block; height:100%; width:20%; background:#a6f1ca; border-radius:99px }
-    .grid { margin-top:24px; display:grid; grid-template-columns:repeat(3,1fr); gap:16px }.card { background:var(--paper); border:1px solid #e5e1f4; border-radius:20px; padding:20px; box-shadow:0 8px 24px #30226d0d; min-height:180px; display:flex; flex-direction:column }.card h2 { font-size:1.18rem; margin:0 0 8px }.card p { line-height:1.55; color:#625d77; margin:0 0 18px; flex:1 }.icon { font-size:2rem; margin-bottom:14px } button { appearance:none; border:0; background:var(--ink); color:white; border-radius:12px; padding:11px 14px; font-weight:750; cursor:pointer; font-size:.95rem } button:hover { background:var(--purple) }
-    .session { margin-top:24px; background:var(--mint); border-radius:22px; padding:clamp(20px,4vw,34px); display:grid; grid-template-columns:1fr auto; gap:18px; align-items:center }.session h2 { margin:0 0 5px }.session p { margin:0; line-height:1.6 }.question { margin-top:16px; padding:16px; background:white; border-radius:16px; font-size:1.1rem; font-weight:650 }.answers { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-top:12px }.answers button { background:white; color:var(--ink); outline:1px solid #cbc7df; text-align:left }.answers button:hover { background:var(--purple); color:#fff }.result { min-height:1.4em; font-weight:750; margin-top:12px }
-    footer { text-align:center; color:#716b86; padding:8px; font-size:.85rem } @media (max-width:650px) { .hero { grid-template-columns:1fr; border-radius:22px }.hero-mark { display:none }.grid { grid-template-columns:1fr 1fr; gap:12px }.card { min-height:165px; padding:16px }.session { grid-template-columns:1fr }.answers { grid-template-columns:1fr } } @media (min-width:700px) and (max-width:900px) { .grid { grid-template-columns:repeat(3,1fr) } } @media (max-width:380px) { .grid { grid-template-columns:1fr } }
+    :root{--ink:#211c3d;--purple:#5046b8;--lav:#eeedff;--mint:#e7f8ef;--paper:#fff;--line:#ddd9ec;--muted:#625d77}*{box-sizing:border-box}body{margin:0;background:#faf9ff;color:var(--ink);font-family:system-ui,-apple-system,"Noto Sans TC",sans-serif}header,main{max-width:1060px;margin:auto}header{display:flex;align-items:center;justify-content:space-between;padding:20px 24px 14px}.brand{font-size:1.35rem;font-weight:800;letter-spacing:-.04em}.badge{background:var(--purple);color:#fff;border-radius:99px;padding:6px 10px;font-size:.8rem}main{padding:0 24px 28px}.intro{display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:14px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}h1{font-size:1.45rem;margin:0;letter-spacing:-.03em}.intro p{margin:0;color:var(--muted);font-size:.9rem}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}.card{border:1px solid var(--line);background:var(--paper);border-radius:12px;padding:14px;display:flex;flex-direction:column;min-height:132px}.card h2{font-size:1rem;margin:0 0 5px}.card p{font-size:.86rem;line-height:1.45;color:var(--muted);margin:0 0 12px;flex:1}button{appearance:none;border:0;background:var(--ink);color:#fff;border-radius:8px;padding:8px 10px;font-weight:700;cursor:pointer;font-size:.86rem}button:hover{background:var(--purple)}button:disabled{background:#b7b2c9;cursor:not-allowed}.lock-note{margin-top:7px;font-size:.78rem;color:#87512d}.session,.manager{margin-top:14px;border-radius:12px;padding:18px}.session{background:var(--mint)}.manager{background:var(--lav)}.session h2,.manager h2{font-size:1.08rem;margin:0 0 4px}.session p,.manager>p{margin:0;color:var(--muted);font-size:.9rem}.question{margin-top:12px;background:#fff;border-radius:9px;padding:13px;font-weight:650;line-height:1.55}.answers{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px}.answers button{background:#fff;color:var(--ink);border:1px solid #c8c3da;text-align:left}.answers button:hover{background:var(--purple);color:#fff}.sound{display:inline-block;margin-left:6px;padding:3px 6px;border:1px solid #c6c0e4;border-radius:6px;background:#fff;color:var(--purple);font-size:.75rem;vertical-align:middle}.result{min-height:1.25em;margin-top:9px;font-weight:750}.explanation{display:none;margin-top:8px;padding:10px 12px;background:#fff7dd;border-radius:8px;font-size:.9rem;line-height:1.5}.explanation.show{display:block}.phrase-list{display:grid;gap:7px;margin:12px 0}.phrase{background:#fff;border-radius:8px;padding:10px 12px;line-height:1.5;font-size:.9rem}.phrase strong{font-size:1rem}.draft{display:grid;grid-template-columns:1fr auto;gap:8px}.draft textarea{width:100%;min-height:82px;border:1px solid #c9c4eb;border-radius:8px;padding:9px;font:inherit;color:var(--ink);resize:vertical}.notice{font-size:.8rem;color:var(--muted);margin:7px 0 0}footer{text-align:center;padding:12px;color:#716b86;font-size:.78rem}@media(max-width:650px){header,main{padding-left:16px;padding-right:16px}.intro{display:block}.intro p{margin-top:5px}.grid{grid-template-columns:1fr 1fr}.answers,.draft{grid-template-columns:1fr}}@media(max-width:380px){.grid{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
-  <header><div class="brand">KK <span style="color:#5046b8">TOPIK I</span> Coach</div><div class="badge">TOPIK I · 2級</div></header>
+  <header><div class="brand">KK <span style="color:#5046b8">TOPIK I</span> Coach</div><div class="badge">TOPIK I · 由基礎開始</div></header>
   <main>
-    <section class="hero"><div><h1>每天一點，<br>穩穩考過 TOPIK I。</h1><p>用短而有效的練習，把單字、文法、聽力與閱讀變成真的記得住的能力。</p><div class="progress"><span>今日進度</span><div class="track"><i></i></div><strong>20%</strong></div></div><div class="hero-mark">한글</div></section>
+    <section class="intro"><div><h1>TOPIK I 每日練習</h1><p>8/15 前集中練習常用句型、助詞與職場禮貌表達。</p></div><span style="font-size:.85rem;color:#625d77">今日進度 20%</span></section>
     <section class="grid">
-      <article class="card"><div class="icon">🧠</div><h2>單字複習</h2><p>以間隔重複安排今天該記住的字。</p><button onclick="start('單字')">開始複習</button></article>
-      <article class="card"><div class="icon">✍️</div><h2>文法練習</h2><p>從句型到選擇題，建立正確語感。</p><button onclick="start('文法')">開始練習</button></article>
-      <article class="card"><div class="icon">🎧</div><h2>聽力訓練</h2><p>用短題組熟悉 TOPIK I 聽力節奏。</p><button onclick="start('聽力')">開始訓練</button></article>
-      <article class="card"><div class="icon">📖</div><h2>閱讀理解</h2><p>抓住關鍵字，更快理解短文。</p><button onclick="start('閱讀')">開始閱讀</button></article>
-      <article class="card"><div class="icon">📝</div><h2>模擬考</h2><p>限時作答，掌握真正考場的節奏。</p><button onclick="start('模擬考')">進入模擬考</button></article>
-      <article class="card"><div class="icon">🔁</div><h2>錯題記憶</h2><p>答錯就回來；連續答對 3 次才升級。</p><button onclick="start('錯題')">複習錯題</button></article>
+      <article class="card"><h2>單字複習</h2><p>生活與職場常用動詞、時間與場所。</p><button onclick="start('單字')">開始複習</button></article>
+      <article class="card"><h2>文法練習</h2><p>助詞、時態與敬語；答題後顯示說明。</p><button onclick="start('文法')">開始練習</button></article>
+      <article class="card"><h2>聽力訓練</h2><p>聽完整句，再判斷說話者的意思。</p><button onclick="start('聽力')">開始訓練</button></article>
+      <article class="card"><h2>閱讀理解</h2><p>從短句找出人物、地點與時間。</p><button onclick="start('閱讀')">開始閱讀</button></article>
+      <article class="card"><h2>模擬考</h2><p>8/15 起開放，以已學單字和句型為主。</p><button id="examButton" onclick="startExam()">進入模擬考</button><div class="lock-note" id="examNote"></div></article>
+      <article class="card"><h2>錯題記憶</h2><p>錯題會優先重複出現，答對三次才完成。</p><button onclick="start('錯題')">複習錯題</button></article>
     </section>
-    <section class="session"><div><h2 id="sessionTitle">今天的快速練習</h2><p>答錯會優先回到複習清單；答對後依 1／3／7／14／30 天安排下次複習。</p><div class="question">「감사합니다」的意思是？</div><div class="answers"><button onclick="answer(false)">A. 對不起</button><button onclick="answer(true)">B. 謝謝</button><button onclick="answer(false)">C. 再見</button><button onclick="answer(false)">D. 請進</button></div><div class="result" id="result" aria-live="polite"></div></div><div style="font-size:4rem">🌱</div></section>
-  </main><footer>KK TOPIK I Coach · 以間隔重複，陪你穩定進步</footer>
-  <script>function start(x){document.getElementById('sessionTitle').textContent=x+'練習';document.querySelector('.session').scrollIntoView({behavior:'smooth'});}function answer(ok){document.getElementById('result').textContent=ok?'答對了！下次依間隔重複排程複習。':'答錯沒關係，這題已加入錯題記憶，稍後會再出現。';}</script>
+    <section class="session"><h2 id="sessionTitle">今天的快速練習</h2><p>每個韓文字或句子旁都有發音按鈕。</p><div class="question" id="question"></div><div class="answers" id="answers"></div><div class="result" id="result" aria-live="polite"></div><div class="explanation" id="explanation"></div></section>
+    <section class="manager"><h2>跟總經理的韓文練習區</h2><p>明天要傳訊息時，可直接複製或修改下方內容。</p><div class="phrase-list"><div class="phrase"><strong>사장님, 안녕하세요.</strong><button class="sound" onclick="speak('사장님, 안녕하세요.')">🔊 發音</button><br>總經理，您好。</div><div class="phrase"><strong>회의 자료를 확인했습니다.</strong><button class="sound" onclick="speak('회의 자료를 확인했습니다.')">🔊 發音</button><br>我已確認會議資料。</div><div class="phrase"><strong>내일 뵙겠습니다.</strong><button class="sound" onclick="speak('내일 뵙겠습니다.')">🔊 發音</button><br>明天見。</div></div><div class="draft"><textarea id="messageDraft">사장님, 안녕하세요.
+회의 자료를 확인했습니다.
+내일 뵙겠습니다.</textarea><button onclick="copyDraft()">複製明日訊息</button></div><p class="notice" id="copyNotice" aria-live="polite">可修改後再複製貼到訊息中。</p></section>
+  </main>
+  <footer>KK TOPIK I Coach</footer>
+  <script>
+    const sound=(t)=>`<button class="sound" onclick="speak('${t}')">🔊 發音</button>`;
+    const sets={
+      '單字':{q:`「약속」${sound('약속')}的意思最接近哪一個？`,a:['A. 約定／約會','B. 藥局','C. 休息','D. 課本'],correct:0,e:'「약속」是約定、約會。例如「약속이 있어요」表示「我有約」。它和「약국」（藥局）只差一個字，容易混淆。'},
+      '文法':{q:`請選出正確句子：「저는 회사___ 갑니다.」${sound('저는 회사에 갑니다.')}`,a:['A. 를','B. 에','C. 은','D. 와'],correct:1,e:'移動的目的地使用「에」。「회사에 가다」就是「去公司」。 「을／를」用於受詞；「은／는」用於主題。'},
+      '聽力':{q:`先聽句子，再選正確意思： 「오늘은 비가 와요.」${sound('오늘은 비가 와요.')}`,a:['A. 今天很忙','B. 今天下雨','C. 今天很冷','D. 今天要上班'],correct:1,e:'「오늘은」是今天，「비」是雨，「와요」來自「오다（來）」。雨「來了」就是「下雨」。'},
+      '閱讀':{q:`「민수 씨는 어제 친구하고 영화를 봤어요.」${sound('민수 씨는 어제 친구하고 영화를 봤어요.')}<br><br>민수 씨는 어제 무엇을 했어요? ${sound('민수 씨는 어제 무엇을 했어요?')}`,a:['A. 친구하고 영화를 봤어요.','B. 친구하고 밥을 먹었어요.','C. 회사에 갔어요.','D. 집에서 공부했어요.'],correct:0,e:'「어제」是昨天，「친구하고」是和朋友，「영화를 봤어요」是看了電影。閱讀時先抓「誰、何時、和誰、做了什麼」，不必逐字翻譯。'},
+      '錯題':{q:`「시간이 없어서 택시를 탔어요.」${sound('시간이 없어서 택시를 탔어요.')} 最合理的意思是？`,a:['A. 因為沒時間，所以搭了計程車','B. 因為沒有車，所以走路','C. 因為下雨，所以沒出門','D. 因為很累，所以睡覺'],correct:0,e:'「-아서／어서」有「因為…所以…」的連接作用。「시간이 없어서」是「因為沒有時間」，「택시를 탔어요」是「搭了計程車」。'},
+      '模擬考':{q:`模擬考暖身：「식당에서 밥을 먹고 커피를 마셨어요.」${sound('식당에서 밥을 먹고 커피를 마셨어요.')} 正確意思是？`,a:['A. 在餐廳吃飯後喝了咖啡','B. 在家做飯後去上班','C. 在咖啡店看了菜單','D. 在餐廳買了咖啡'],correct:0,e:'「-고」連接兩個動作，表示先後或並列。「식당에서」是在餐廳，「밥을 먹고」吃飯後，「커피를 마셨어요」喝了咖啡。'}
+    };
+    let current='單字';
+    function speak(text){if(!('speechSynthesis' in window)){alert('此瀏覽器不支援語音播放。');return}speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='ko-KR';u.rate=.84;speechSynthesis.speak(u)}
+    function start(name){current=name;document.getElementById('sessionTitle').textContent=name+'練習';document.querySelector('.session').scrollIntoView({behavior:'smooth',block:'center'});render()}
+    function render(){const d=sets[current];document.getElementById('question').innerHTML=d.q;document.getElementById('answers').innerHTML=d.a.map((v,i)=>`<button onclick="answer(${i})">${v}</button>`).join('');document.getElementById('result').textContent='';const ex=document.getElementById('explanation');ex.textContent='';ex.classList.remove('show')}
+    function answer(index){const d=sets[current],ok=index===d.correct;document.getElementById('result').textContent=ok?'答對了。':'這題先記下來。';const ex=document.getElementById('explanation');ex.innerHTML=`<strong>說明：</strong>${d.e}`;ex.classList.add('show')}
+    function startExam(){if(new Date()>=new Date('2026-08-15T00:00:00'))start('模擬考')}
+    function setupExam(){const open=new Date()>=new Date('2026-08-15T00:00:00'),b=document.getElementById('examButton'),n=document.getElementById('examNote');b.disabled=!open;b.textContent=open?'開始模擬考':'8/15 開始';n.textContent=open?'現在可以開始測驗。':'2026/8/15 00:00 開放。'}
+    async function copyDraft(){const t=document.getElementById('messageDraft').value;try{await navigator.clipboard.writeText(t);document.getElementById('copyNotice').textContent='已複製，可直接貼到明天的訊息。'}catch{document.getElementById('messageDraft').select();document.execCommand('copy');document.getElementById('copyNotice').textContent='已選取訊息，請按 Ctrl+C 複製。'}}
+    setupExam();render();
+  </script>
 </body>
 </html>
