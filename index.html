@@ -24,7 +24,7 @@
 내일 뵙겠습니다.</textarea><button onclick="copyDraft()">複製明日訊息</button></div><p class="notice" id="copyNotice" aria-live="polite">可修改後再複製貼到訊息中。</p></section>
   </main><footer>KK TOPIK I Coach</footer>
   <script>
-    const audio=(t)=>'<button class="sound" onclick="speak('+JSON.stringify(t)+')">🔊 發音</button>';
+    const audio=(t)=>`<button class="sound" onclick="speak('${t.replace(/'/g,"\\'")}')">🔊 發音</button>`;
     const q=(t,a,c,e)=>({t,a,c,e});
     const sets={
       '單字':[
