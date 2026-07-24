@@ -61,7 +61,7 @@
       ]
     };
     const vocabSounds=['약속','회의','준비하다','늦다','근처','먼저','아직','필요하다','보내다','확인하다'];
-    const grammarSounds=['저는 회사, 갑니다.','커피, 마셔요.','비가 와서 우산을 가져갔어요.','어제 영화를,','회의가 끝난 후에 연락할게요.'];
+    const grammarSounds=['저는 회사|갑니다.','커피|마셔요.','비가 와서 우산을 가져갔어요.','어제 영화를','회의가 끝난 후에 연락할게요.'];
     const listeningSounds=['오늘은 비가 와요.','자료를 보냈어요.','잠깐만 기다려 주세요.','내일 오전에 회의가 있어요.','확인하고 싶어요.'];
     sets['單字'].forEach((x,i)=>x.sound=vocabSounds[i]);
     sets['文法'].forEach((x,i)=>x.sound=grammarSounds[i]);
@@ -73,7 +73,7 @@
     function markKorean(html){return html.replace(/[가-힣]+/g,word=>'<span class="kword" data-word="'+word+'">'+word+'</span>')}
     function koreanOnly(text){return(text.match(/[가-힣]+/g)||[]).join(' ')}
     function clearHighlight(){document.querySelectorAll('.kword.active').forEach(x=>x.classList.remove('active'))}
-    function speak(text,button=document.activeElement){if(!('speechSynthesis'in window)){alert('此瀏覽器不支援語音播放。');return}speechSynthesis.cancel();clearHighlight();const root=button?.closest('.question,.phrase')||button?.closest('.answers > button'),all=[...(root?.querySelectorAll('.kword')||[])],matches=[...text.matchAll(/[가-힣]+/g)],spoken=matches.map(x=>x[0]);let start=all.findIndex((x,i)=>spoken.every((word,n)=>all[i+n]?.dataset.word===word));if(start<0)start=0;const words=all.slice(start,start+spoken.length),u=new SpeechSynthesisUtterance(text);u.lang='ko-KR';u.rate=.84;const highlight=position=>{let selected=0;matches.forEach((m,i)=>{if(m.index<=position)selected=i});clearHighlight();words[selected]?.classList.add('active')};u.onstart=()=>highlight(0);u.onboundary=e=>highlight(e.charIndex);u.onend=clearHighlight;u.onerror=clearHighlight;speechSynthesis.speak(u)}
+    function speak(text,button=document.activeElement){if(!('speechSynthesis'in window)){alert('此瀏覽器不支援語音播放。');return}speechSynthesis.cancel();clearHighlight();const parts=text.split('|').filter(Boolean),spokenText=parts.join(' '),root=button?.closest('.question,.phrase')||button?.closest('.answers > button'),all=[...(root?.querySelectorAll('.kword')||[])],matches=[...spokenText.matchAll(/[가-힣]+/g)],spoken=matches.map(x=>x[0]);let start=all.findIndex((x,i)=>spoken.every((word,n)=>all[i+n]?.dataset.word===word));if(start<0)start=0;const words=all.slice(start,start+spoken.length),highlight=position=>{let selected=0;matches.forEach((m,i)=>{if(m.index<=position)selected=i});clearHighlight();words[selected]?.classList.add('active')};let part=0,offset=0;const play=()=>{const u=new SpeechSynthesisUtterance(parts[part]);u.lang='ko-KR';u.rate=.84;u.onstart=()=>highlight(offset);u.onboundary=e=>highlight(offset+e.charIndex);u.onend=()=>{offset+=parts[part].length+1;part++;if(part<parts.length)setTimeout(play,350);else clearHighlight()};u.onerror=clearHighlight;speechSynthesis.speak(u)};play()}
     function koreanButton(text){const korean=koreanOnly(text);return korean?audio(korean):''}
     function start(name){mode=name;active=name==='錯題'?buildWrong():name==='模擬考'?exam:sets[name];index=0;answered=false;const s=document.getElementById('session');s.classList.add('open');document.getElementById('sessionTitle').textContent=name+'練習';document.getElementById('sessionHint').textContent=name==='錯題'?'答對三次後會從錯題清單移除。':'答題後可看說明，再按下一題。';s.scrollIntoView({behavior:'smooth',block:'start'});render()}
     function buildWrong(){const w=getWrong();return Object.values(sets).flat().filter(x=>w[x.t]&&w[x.t].right<3)}
