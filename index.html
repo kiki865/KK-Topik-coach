@@ -2,12 +2,17 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>KK TOPIK I Coach</title>
-<link href="style.css?v=20260726-4" rel="stylesheet">
+<link href="style.css?v=20260726-5" rel="stylesheet">
 </head>
 <body>
 <header><div class="brand">KK <span>TOPIK I</span> Coach</div><div class="badge">TOPIK I · 從單字開始</div></header>
 <main>
 <section class="intro"><div><h1>TOPIK I 每日練習</h1><p>先認字、再聽音，最後才進入簡短句子。</p></div><span id="todayProgress" style="font-size:.85rem">今日完成 0 / 5 項</span></section>
+<section class="vocab-progress" aria-labelledby="vocabProgressTitle">
+<div class="vocab-progress__head"><div><h2 id="vocabProgressTitle">我的單字量</h2><p>每按一次「我記住了」，就會記錄一個已學過的單字。</p></div><strong id="vocabProgressText">已學 0 / 200 字</strong></div>
+<div class="vocab-progress__track" role="progressbar" aria-valuemin="0" aria-valuemax="200" aria-valuenow="0" id="vocabProgressBar"><i id="vocabProgressFill"></i></div>
+<p class="vocab-progress__note" id="vocabMilestone">第一階段目標：200 個基礎單字</p>
+</section>
 <section aria-labelledby="challengeTitle" class="challenge-calendar">
 <div class="challenge-calendar__head"><h2 id="challengeTitle">挑戰月曆</h2><p id="calendarStatus">月份接續挑戰</p></div>
 <p class="challenge-rule">每日核心：10 個新字＋5 個複習字＋看字、聽音、句子拼圖</p>
@@ -33,6 +38,6 @@
 </section>
 </main>
 <footer>KK TOPIK I Coach</footer>
-<script src="app.js?v=20260726-4"></script>
+<script src="app.js?v=20260726-5"></script>
 </body>
 </html>
