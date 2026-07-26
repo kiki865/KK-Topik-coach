@@ -2,28 +2,25 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>KK TOPIK I Coach</title>
-<link href="style.css?v=20260726" rel="stylesheet">
+<link href="style.css?v=20260726-2" rel="stylesheet">
 </head>
 <body>
 <header><div class="brand">KK <span>TOPIK I</span> Coach</div><div class="badge">TOPIK I · 由基礎開始</div></header>
 <main>
-<section class="intro"><div><h1>TOPIK I 每日練習</h1><p>8/15 前集中練習常用句型、助詞與職場禮貌表達。</p></div><span id="todayProgress" style="font-size:.85rem">今日完成 0 / 4 項</span></section>
+<section class="intro"><div><h1>TOPIK I 每日練習</h1><p>先認識單字，再看字選意思，最後練習聽音辨識。</p></div><span id="todayProgress" style="font-size:.85rem">今日完成 0 / 3 項</span></section>
 <section aria-labelledby="julyChallengeTitle" class="challenge-calendar">
 <div class="challenge-calendar__head"><h2 id="julyChallengeTitle">挑戰月曆</h2><p id="calendarStatus">月份接續挑戰</p></div>
-<p class="challenge-rule">每日單字挑戰：10 個新字＋5 個複習字</p>
+<p class="challenge-rule">每日挑戰：10 個新字＋5 個複習字，再完成兩個小測驗</p>
 <div class="calendar-nav"><button id="previousMonth" type="button">‹ 上月</button><strong id="calendarMonth"></strong><button id="nextMonth" type="button">下月 ›</button></div>
 <div id="dynamicCalendar"></div>
-<p class="calendar-note">○ 尚未完成　✓ 已完成。完成每天的 10 個新字＋5 個複習字後再打勾。</p>
+<p class="calendar-note">○ 尚未完成　✓ 已完成。三個關卡完成後，再手動為今天打勾。</p>
 </section>
 <section class="grid">
-<article class="card" id="card-單字"><h2>單字複習 <span class="done">✓</span></h2><p>生活與職場常用動詞、時間與場所。</p><div class="count">每日 10 個新字＋5 個複習字</div><button onclick="start('單字')">開始複習</button></article>
-<article class="card" id="card-文法"><h2>文法練習 <span class="done">✓</span></h2><p>助詞、時態與敬語；答題後顯示說明。</p><div class="count">每日 5 題</div><button onclick="start('文法')">開始練習</button></article>
-<article class="card" id="card-聽力"><h2>聽力訓練 <span class="done">✓</span></h2><p>聽完整句，再判斷說話者的意思。</p><div class="count">每日 5 題</div><button onclick="start('聽力')">開始訓練</button></article>
-<article class="card" id="card-閱讀"><h2>閱讀理解 <span class="done">✓</span></h2><p>以韓文短文與韓文選項作答。</p><div class="count">每日 3 題</div><button onclick="start('閱讀')">開始閱讀</button></article>
-<article class="card"><h2>模擬考</h2><p>8/15 起開放，作答 20 題綜合題。</p><div class="count">限時 30 分鐘</div><button id="examButton" onclick="startExam()">進入模擬考</button><div class="lock-note" id="examNote"></div></article>
-<article class="card"><h2>錯題記憶</h2><p>每題答對三次才會從錯題清單移除。</p><div class="count" id="wrongCount">目前 0 題</div><button onclick="start('錯題')">複習錯題</button></article>
+<article class="card" id="card-今日單字"><h2>關卡 1｜今日單字 <span class="done">✓</span></h2><p>逐字看韓文、中文、簡短例句並播放發音。</p><div class="count">10 個新字＋5 個複習字</div><button onclick="start('今日單字')">開始學單字</button></article>
+<article class="card" id="card-看字選意思"><h2>關卡 2｜看字選意思 <span class="done">✓</span></h2><p>看到韓文單字後，從中文選項找出正確意思。</p><div class="count">每日 5 題</div><button onclick="start('看字選意思')">開始小測驗</button></article>
+<article class="card" id="card-聽音選意思"><h2>關卡 3｜聽音選意思 <span class="done">✓</span></h2><p>先聽一個韓文單字，再選出正確的中文意思。</p><div class="count">每日 5 題</div><button onclick="start('聽音選意思')">開始聽單字</button></article>
 </section>
-<section class="session" id="session"><div class="session-head"><div><h2 id="sessionTitle">練習</h2><p id="sessionHint">請選擇答案。</p></div><strong class="counter" id="counter"></strong></div><div class="bar"><i id="bar"></i></div><div class="question" id="question"></div><div class="answers" id="answers"></div><div class="result" id="result" aria-live="polite"></div><div class="explanation" id="explanation"></div><div class="next-row" id="nextRow"></div></section>
+<section class="session" id="session"><div class="session-head"><div><h2 id="sessionTitle">練習</h2><p id="sessionHint">請依照畫面完成練習。</p></div><strong class="counter" id="counter"></strong></div><div class="bar"><i id="bar"></i></div><div class="question" id="question"></div><div class="answers" id="answers"></div><div class="result" id="result" aria-live="polite"></div><div class="explanation" id="explanation"></div><div class="next-row" id="nextRow"></div></section>
 <section aria-labelledby="dailyManagerTitle" class="manager daily-manager">
 <h2 id="dailyManagerTitle">跟總經理的韓文練習區 <span class="daily-topic" id="dailyTopic"></span></h2>
 <p id="dailyManagerIntro">每天一個職場主題，直接練習今天最需要的兩句話。</p>
@@ -33,6 +30,6 @@
 </section>
 </main>
 <footer>KK TOPIK I Coach</footer>
-<script src="app.js?v=20260726"></script>
+<script src="app.js?v=20260726-2"></script>
 </body>
 </html>
