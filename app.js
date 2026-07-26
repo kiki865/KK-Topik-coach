@@ -45,10 +45,16 @@ function renderChallengeCalendar(){const y=calendarView.getFullYear(),m=calendar
 document.getElementById('dynamicCalendar').addEventListener('click',e=>{const el=e.target.closest('[data-date]');if(!el)return;const dates=getChallengeDates(),key=el.dataset.date,i=dates.indexOf(key);i>=0?dates.splice(i,1):dates.push(key);localStorage.setItem(challengeStorageKey,JSON.stringify(dates));renderChallengeCalendar()});
 document.getElementById('previousMonth').onclick=()=>{calendarView.setMonth(calendarView.getMonth()-1);renderChallengeCalendar()};document.getElementById('nextMonth').onclick=()=>{calendarView.setMonth(calendarView.getMonth()+1);renderChallengeCalendar()};
 const topics=[
-{topic:'工作確認',intro:'今天只練習兩句短句。',lines:[['업무를 확인했습니다.','已確認工作。'],['잘 부탁드립니다.','請多指教。']]},
-{topic:'進度報告',intro:'用最短的方式回報進度。',lines:[['진행 중입니다.','正在進行中。'],['곧 공유드리겠습니다.','稍後與您分享。']]},
-{topic:'會議安排',intro:'簡單確認會議。',lines:[['회의를 확인했습니다.','已確認會議。'],['내일 뵙겠습니다.','明天見。']]}
+{topic:'工作確認',intro:'今天練習確認工作與禮貌請託。',lines:[
+{ko:'업무를 확인했습니다.',zh:'我已確認工作內容。',parts:[['업무','工作、業務'],['를','受詞助詞，表示「工作」是確認的對象'],['확인했습니다','확인하다（確認）＋았습니다／었습니다（正式敬語過去式）']],grammar:'名詞＋를／을＋動詞。這句省略主詞「我」，韓文職場對話中很自然。확인했습니다 表示動作已完成，語氣正式、適合向總經理回報。',use:'用於已查看任務、文件或指示後的正式回覆。'},
+{ko:'잘 부탁드립니다.',zh:'請多多指教／麻煩您了。',parts:[['잘','好好地、順利地'],['부탁','拜託、請託'],['드립니다','드리다（敬語：給、呈上）＋正式語尾ㅂ니다']],grammar:'부탁드리다 是「拜託、請託」的謙讓敬語。整句沒有逐字對應的中文主詞，需依情境翻成「請多指教」或「麻煩您了」。',use:'開始合作、提出請求或結束正式訊息時使用。'}]},
+{topic:'進度報告',intro:'今天練習簡短而正式地回報進度。',lines:[
+{ko:'진행 중입니다.',zh:'目前正在進行中。',parts:[['진행','進行、推進'],['중','中、正在某個狀態'],['입니다','이다（是）的正式敬語語尾']],grammar:'名詞＋중이다 表示「正在……中」。진행 중입니다 是正式說法，主詞與專案名稱常因上下文清楚而省略。',use:'回覆目前工作、專案或確認事項尚在處理時使用。'},
+{ko:'곧 공유드리겠습니다.',zh:'我稍後會與您分享。',parts:[['곧','很快、稍後'],['공유','分享'],['드리겠습니다','드리다（謙讓敬語）＋겠습니다（正式未來意志）']],grammar:'공유드리다 是「向上級分享」的謙讓表達。-겠습니다 表示說話者正式的意志或承諾，因此比 공유할게요 更適合對總經理使用。',use:'準備稍後傳送資料、報告或連結時使用。'}]},
+{topic:'會議安排',intro:'今天練習確認會議與正式道別。',lines:[
+{ko:'회의를 확인했습니다.',zh:'我已確認會議安排。',parts:[['회의','會議'],['를','受詞助詞'],['확인했습니다','已確認；正式敬語過去式']],grammar:'회의＋를＋확인했습니다，結構是「受詞＋動詞」。中文可依情境補成「已確認會議時間／安排」，但韓文原句只寫「已確認會議」。',use:'收到會議通知、時間或地點後的正式確認。'},
+{ko:'내일 뵙겠습니다.',zh:'明天見。',parts:[['내일','明天'],['뵙겠습니다','보다（見）→ 뵙다（謙讓敬語）＋겠습니다（正式意志）']],grammar:'뵙다 是「見到」的謙讓語，用於見上級或長輩。뵙겠습니다 比 만나요、볼게요 更正式且更有禮貌。',use:'預計隔天與總經理見面或開會時使用。'}]}
 ];
-function renderManager(){const t=topics[(new Date().getDate()-1)%topics.length];document.getElementById('dailyTopic').textContent='今日主題：'+t.topic;document.getElementById('dailyManagerIntro').textContent=t.intro;document.getElementById('dailyPhraseList').innerHTML=t.lines.map(([ko,zh])=>`<div class="phrase"><strong>${ko}</strong>${audio(ko)}<br>${zh}</div>`).join('');document.getElementById('dailyMessageDraft').value=t.lines.map(x=>x[0]).join('\n')}
+function renderManager(){const t=topics[(new Date().getDate()-1)%topics.length];document.getElementById('dailyTopic').textContent='今日主題：'+t.topic;document.getElementById('dailyManagerIntro').textContent=t.intro;document.getElementById('dailyPhraseList').innerHTML=t.lines.map(line=>`<article class="phrase grammar-card"><div class="manager-sentence"><strong>${line.ko}</strong>${audio(line.ko)}</div><div class="sentence-zh"><b>中文：</b>${line.zh}</div><div class="grammar-section"><b>單字拆解</b><ul>${line.parts.map(([ko,zh])=>`<li><strong>${ko}</strong>：${zh}</li>`).join('')}</ul></div><div class="grammar-section"><b>文法結構</b><p>${line.grammar}</p></div><div class="grammar-section usage"><b>使用情境</b><p>${line.use}</p></div></article>`).join('');document.getElementById('dailyMessageDraft').value=t.lines.map(x=>x.ko).join('\n')}
 async function copyDailyDraft(){const d=document.getElementById('dailyMessageDraft');try{await navigator.clipboard.writeText(d.value);document.getElementById('dailyCopyNotice').textContent='已複製，可直接貼到訊息中。'}catch{d.select();document.execCommand('copy')}}
 renderChallengeCalendar();renderManager();updateCounts();
