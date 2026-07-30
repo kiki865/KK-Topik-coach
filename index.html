@@ -18,21 +18,21 @@
 </section>
 <section aria-labelledby="challengeTitle" class="challenge-calendar">
 <div class="challenge-calendar__head"><h2 id="challengeTitle">挑戰月曆</h2><p id="calendarStatus">每日新題；完成 5 關後自動打勾</p></div>
-<p class="challenge-rule">每日核心：10 個新字＋5 個複習字＋每日新看字題、聽音題與句子拼圖</p>
+<p class="challenge-rule">每日核心：5 個新字＋5 個複習字＋每日新看字題、聽音題與句子拼圖</p>
 <div class="calendar-nav"><button id="previousMonth" type="button">‹ 上月</button><strong id="calendarMonth"></strong><button id="nextMonth" type="button">下月 ›</button></div>
 <div id="dynamicCalendar"></div>
 <p class="calendar-note">○ 尚未完成　✓ 已完成。完成全部 5 個核心關卡後，系統會自動為今天打勾。</p>
 <section class="daily-vocab-table" aria-labelledby="dailyVocabTableTitle">
-<div class="daily-vocab-table__head"><h2 id="dailyVocabTableTitle">挑戰賽每日單字表</h2><p>每個單字都可以播放發音</p></div>
-<div class="daily-vocab-table__wrap"><table><thead><tr><th>日期</th><th>當日 10 個新字</th></tr></thead><tbody id="dailyVocabTableBody"></tbody></table></div>
+<div class="daily-vocab-table__head"><h2 id="dailyVocabTableTitle">挑戰賽每日單字表</h2><p>每日 5 個新字，每個單字都可以播放發音</p></div>
+<div class="daily-vocab-table__wrap"><table><thead><tr><th>日期</th><th>當日 5 個新字</th></tr></thead><tbody id="dailyVocabTableBody"></tbody></table></div>
 <p class="daily-vocab-empty" id="dailyVocabEmpty" hidden>目前還沒有每日單字紀錄。</p>
 </section>
 </section>
 <section class="grid">
-<article class="card" id="card-今日新字"><h2>關卡 1｜今日新字 <span class="done">✓</span></h2><p>每天更換 10 個新字，附中文、單字解釋、例句拆解與文法。</p><div class="count">每日 10 個新字</div><button onclick="start('今日新字')">開始學新字</button></article>
+<article class="card" id="card-今日新字"><h2>關卡 1｜今日新字 <span class="done">✓</span></h2><p>每天更換 5 個新字，附中文、單字解釋、例句拆解與文法。</p><div class="count">每日 5 個新字</div><button onclick="start('今日新字')">開始學新字</button></article>
 <article class="card" id="card-單字複習"><h2>關卡 2｜單字複習 <span class="done">✓</span></h2><p>每天從之前學過的內容選出不同的 5 個單字複習。</p><div class="count">每日 5 個複習字</div><button onclick="start('單字複習')">開始複習</button></article>
-<article class="card" id="card-看字選意思"><h2>關卡 3｜看字選意思 <span class="done">✓</span></h2><p>每天依照今日新字產生新的中文選擇題。</p><div class="count">每日 5 題</div><button onclick="start('看字選意思')">開始小測驗</button></article>
-<article class="card" id="card-聽音選意思"><h2>關卡 4｜聽音選意思 <span class="done">✓</span></h2><p>每天依照今日新字產生新的聽音選擇題。</p><div class="count">每日 5 題</div><button onclick="start('聽音選意思')">開始聽單字</button></article>
+<article class="card" id="card-看字選意思"><h2>關卡 3｜看字選意思 <span class="done">✓</span></h2><p>使用今天的 5 個新字進行中文選擇題。</p><div class="count">每日 5 題</div><button onclick="start('看字選意思')">開始小測驗</button></article>
+<article class="card" id="card-聽音選意思"><h2>關卡 4｜聽音選意思 <span class="done">✓</span></h2><p>使用今天同一組 5 個新字進行聽音練習。</p><div class="count">每日 5 題</div><button onclick="start('聽音選意思')">開始聽單字</button></article>
 <article class="card" id="card-句子拼圖"><h2>關卡 5｜句子拼圖 <span class="done">✓</span></h2><p>每天更換句子，每個選項都可以播放完整發音。</p><div class="count">每日 2 題</div><button onclick="start('句子拼圖')">開始拼句子</button></article>
 <article class="card"><h2>關卡 6｜錯字再練</h2><p>只練習曾經答錯的單字，答對三次後移除。</p><div class="count" id="wrongCount">目前 0 題</div><button onclick="start('錯字再練')">複習錯字</button></article>
 </section>
@@ -46,8 +46,16 @@
 </section>
 </main>
 <footer>KK TOPIK I Coach</footer>
-<script src="app.js?v=20260727-2"></script>
+<script src="app.js?v=20260730-1"></script>
 <script>
+(function applyFiveWordDailyChallenge(){
+  const five=dailyVocab.slice(0,5);
+  const history=getHistory();
+  if(history[today()]&&history[today()].length>5){history[today()]=history[today()].slice(0,5);localStorage.setItem(historyKey,JSON.stringify(history))}
+  sets['今日新字']=five.map(v=>({type:'learn',v}));
+  sets['看字選意思']=five.map((v,i)=>{const a=makeChoices(v.zh,i);return{type:'quiz',t:`<strong style="font-size:1.4rem">${v.ko}</strong> ${audio(v.ko)}<br>這個單字是什麼意思？`,a,c:a.indexOf(v.zh),e:`${v.ko}＝${v.zh}。${v.ex}＝${v.exZh}`,key:v.ko}});
+  sets['聽音選意思']=five.map((v,i)=>{const a=makeChoices(v.zh,i+5);return{type:'quiz',t:`先按發音，再選中文意思。<br><br>${audio(v.ko)}`,a,c:a.indexOf(v.zh),e:`你聽到的是「${v.ko}」，意思是「${v.zh}」。`,key:v.ko}});
+})();
 (function renderDailyVocabTable(){
   const body=document.getElementById('dailyVocabTableBody');
   const empty=document.getElementById('dailyVocabEmpty');
@@ -57,7 +65,7 @@
   const dates=Object.keys(history).sort().reverse();
   if(!dates.length){empty.hidden=false;return}
   body.innerHTML=dates.map(date=>{
-    const words=(history[date]||[]).map((ko,i)=>{
+    const words=(history[date]||[]).slice(0,5).map((ko,i)=>{
       const item=typeof vocabBank!=='undefined'?vocabBank.find(v=>v.ko===ko):null;
       const zh=item?item.zh:'尚無中文資料';
       return `<div class="daily-vocab-item"><strong>${i+1}. ${ko}</strong><span>${zh}</span>${audio(ko)}</div>`;
